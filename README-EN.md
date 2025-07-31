@@ -1,6 +1,6 @@
 
 # 🧠 Project: Order Management System with Design Patterns and Hexagonal Architecture
-[![Build](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
+[![Java CI with Maven](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
 [![Coverage](https://codecov.io/gh/h2danilo/exemplos-design-patterns/branch/main/graph/badge.svg?token=TOKEN_AQUI)](https://codecov.io/gh/h2danilo/exemplos-design-patterns)
 
 This is a hands-on study project demonstrating the use of key **Design Patterns** in a real-world context using **Spring Boot** and **Hexagonal Architecture**. It was built to serve as a reference for developers looking to understand and apply clean code principles, decoupled design, and professional practices in Java backend development.

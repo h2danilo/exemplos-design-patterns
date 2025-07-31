@@ -1,7 +1,7 @@
 
 # 🧠 Projeto: Sistema de Pedidos com Design Patterns e Arquitetura Hexagonal
 
-[![Build](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
+[![Java CI with Maven](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
 
 [![codecov](https://codecov.io/gh/h2danilo/exemplos-design-patterns/branch/main/graph/badge.svg)](https://codecov.io/gh/h2danilo/exemplos-design-patterns)
 
