@@ -1,6 +1,10 @@
 
 # 🧠 Projeto: Sistema de Pedidos com Design Patterns e Arquitetura Hexagonal
 
+[![Build](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
+
+[![codecov](https://codecov.io/gh/h2danilo/exemplos-design-patterns/branch/main/graph/badge.svg)](https://codecov.io/gh/h2danilo/exemplos-design-patterns)
+
 Este projeto demonstra a aplicação prática de **padrões de projeto (Design Patterns)** usando **Spring Boot**, com foco em código limpo, boas práticas e arquitetura hexagonal. É um projeto de estudo e referência para quem deseja entender como aplicar esses conceitos em um sistema real.
 
 ---
@@ -49,22 +53,21 @@ Os testes utilizam `JUnit 5`, sem uso de Mockito, com instância manual das depe
 
 ```
 pedido-design-patterns
-├── domain
-│   ├── Pedido, TipoCliente
+├── domain/
+│   ├── Pedido.java, TipoCliente.java
 │   ├── desconto/
 │   ├── evento/
 │   └── relatorio/
 ├── application/
-│   └── PedidoService
+│   └── PedidoService.java
 ├── infrastructure/
 │   ├── config/
 │   ├── service/
 │   └── rest/
 ├── resources/
 │   └── application.properties
-├── test/
-│   └── PedidoServiceTest
-└── PedidoApplication.java
+└── test/
+    └── PedidoServiceTest.java
 ```
 
 ---

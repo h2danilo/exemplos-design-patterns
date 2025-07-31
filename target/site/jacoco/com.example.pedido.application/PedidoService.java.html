@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PedidoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Pedido Design Patterns</a> &gt; <a href="index.source.html" class="el_package">com.example.pedido.application</a> &gt; <span class="el_source">PedidoService.java</span></div><h1>PedidoService.java</h1><pre class="source lang-java linenums">
+package com.example.pedido.application;
+
+import com.example.pedido.domain.Pedido;
+import com.example.pedido.domain.desconto.DescontoFactory;
+import com.example.pedido.domain.evento.PedidoNotifier;
+
+/**
+ * Camada de aplicação responsável pela orquestração de regras de negócio
+ * Aplica o padrão Strategy via Factory e dispara notificações via Observer
+ */
+public class PedidoService {
+
+    private final PedidoNotifier notifier;
+
+<span class="fc" id="L16">    public PedidoService(PedidoNotifier notifier) {</span>
+<span class="fc" id="L17">        this.notifier = notifier;</span>
+<span class="fc" id="L18">    }</span>
+
+    /**
+     * Cria um novo pedido aplicando o desconto correto e notificando os serviços
+     * @param pedido Pedido a ser processado
+     * @return Pedido com valor atualizado
+     */
+    public Pedido criarPedido(Pedido pedido) {
+        // Obtem a estratégia de desconto baseada no tipo de cliente
+<span class="fc" id="L27">        var strategy = DescontoFactory.getStrategy(pedido.getTipoCliente());</span>
+
+        // Aplica o desconto ao valor
+<span class="fc" id="L30">        pedido.setValor(strategy.aplicarDesconto(pedido.getValor()));</span>
+
+        // Notifica os observadores (e-mail, estoque, nota fiscal, etc)
+<span class="fc" id="L33">        notifier.notificarTodos(pedido);</span>
+
+<span class="fc" id="L35">        return pedido;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

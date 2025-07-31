@@ -1,0 +1,18 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Pedido Design Patterns,com.example.pedido.domain.evento,PedidoNotifier,0,24,0,0,0,6,0,4,0,4
+Pedido Design Patterns,com.example.pedido.infrastructure.rest,PedidoController,36,0,0,0,8,0,3,0,3,0
+Pedido Design Patterns,com.example.pedido,PedidoApplication,8,0,0,0,3,0,2,0,2,0
+Pedido Design Patterns,com.example.pedido.infrastructure.config,AppProperties,8,3,0,0,2,1,2,1,2,1
+Pedido Design Patterns,com.example.pedido.infrastructure.config,PedidoNotifierConfig,21,0,0,0,7,0,2,0,2,0
+Pedido Design Patterns,com.example.pedido.infrastructure.service,NotificadorEmail,5,17,1,1,1,6,1,2,0,2
+Pedido Design Patterns,com.example.pedido.infrastructure.service,NotificadorSlack,22,0,2,0,7,0,3,0,2,0
+Pedido Design Patterns,com.example.pedido.infrastructure.service,GeradorNotaFiscal,9,0,0,0,3,0,2,0,2,0
+Pedido Design Patterns,com.example.pedido.infrastructure.service,AtualizadorEstoque,0,9,0,0,0,3,0,2,0,2
+Pedido Design Patterns,com.example.pedido.domain.desconto,DescontoClienteVIP,0,8,0,0,0,2,0,2,0,2
+Pedido Design Patterns,com.example.pedido.domain.desconto,DescontoClientePadrao,0,5,0,0,0,2,0,2,0,2
+Pedido Design Patterns,com.example.pedido.domain.desconto,DescontoFactory,7,13,1,2,1,3,2,2,1,1
+Pedido Design Patterns,com.example.pedido.application,PedidoService,0,22,0,0,0,7,0,2,0,2
+Pedido Design Patterns,com.example.pedido.domain,TipoCliente,0,15,0,0,0,2,0,1,0,1
+Pedido Design Patterns,com.example.pedido.domain,Pedido,11,25,0,0,3,9,3,5,3,5
+Pedido Design Patterns,com.example.pedido.domain.relatorio,RelatorioBase,5,0,0,0,2,0,2,0,2,0
+Pedido Design Patterns,com.example.pedido.domain.relatorio,RelatorioComRodape,11,0,0,0,4,0,2,0,2,0

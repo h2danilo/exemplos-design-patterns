@@ -1,5 +1,7 @@
 
 # 🧠 Project: Order Management System with Design Patterns and Hexagonal Architecture
+[![Build](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
+[![Coverage](https://codecov.io/gh/h2danilo/exemplos-design-patterns/branch/main/graph/badge.svg?token=TOKEN_AQUI)](https://codecov.io/gh/h2danilo/exemplos-design-patterns)
 
 This is a hands-on study project demonstrating the use of key **Design Patterns** in a real-world context using **Spring Boot** and **Hexagonal Architecture**. It was built to serve as a reference for developers looking to understand and apply clean code principles, decoupled design, and professional practices in Java backend development.
 
@@ -17,15 +19,24 @@ This is a hands-on study project demonstrating the use of key **Design Patterns*
 
 ---
 
-## 🧱 Hexagonal Architecture Overview
+## 🧱 Hexagonal Architecture
 
-- **domain**: core entities, enums, interfaces, and business contracts
-- **application**: business orchestration and service layer logic
-- **infrastructure**: technical integrations (notifiers, config)
-- **rest**: HTTP interface (Spring REST controllers)
+- **domain**: business entities, enums, interfaces
+- **application**: orchestration logic (use cases)
+- **infrastructure**: external services and configurations
+- **rest**: REST controllers (HTTP interface)
 
 ---
 
+## ⚙️ Configuration
+
+Environment is set via `application.properties` using `@ConfigurationProperties`.
+
+```properties
+app.notificacao.ambiente=producao
+```
+
+---
 ## 🚀 How to Run
 
 ```bash
@@ -50,7 +61,7 @@ Unit tests are written with JUnit 5. No mocking frameworks are used — dependen
 ```
 pedido-design-patterns
 ├── domain/
-│   ├── Pedido, TipoCliente
+│   ├── Pedido.java, TipoCliente.java
 │   ├── desconto/
 │   ├── evento/
 │   └── relatorio/
@@ -60,11 +71,10 @@ pedido-design-patterns
 │   ├── config/
 │   ├── service/
 │   └── rest/
-├── test/
-│   └── PedidoServiceTest.java
 ├── resources/
 │   └── application.properties
-└── PedidoApplication.java
+└── test/
+    └── PedidoServiceTest.java
 ```
 
 ---
