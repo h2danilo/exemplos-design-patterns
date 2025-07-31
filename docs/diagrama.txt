@@ -1,0 +1,26 @@
+
+# Diagrama de Arquitetura Hexagonal - Sistema de Pedidos
+
+                 +---------------------------+
+                 |      PedidoController     | <- REST (Spring Boot)
+                 +---------------------------+
+                           |
+                           v
+         +---------------------------------------+
+         |            PedidoService              | <- Camada de Aplicação
+         | - Usa Factory para escolher Strategy  |
+         | - Notifica via Observer (Notifier)    |
+         +---------------------------------------+
+                           |
+           +---------------+-------------------+
+           |               |                   |
+           v               v                   v
+ +----------------+ +----------------+ +----------------+
+ | Desconto VIP   | | Desconto Padrão| | PedidoNotifier |
+ | (Strategy)     | | (Strategy)     | | (Observer)     |
+ +----------------+ +----------------+ +----------------+
+                                               |
+                  +----------------------------+-----------------------------+
+                  |              |                     |                     |
+                  v              v                     v                     v
+        NotificadorEmail   AtualizadorEstoque   GeradorNotaFiscal   NotificadorSlack
