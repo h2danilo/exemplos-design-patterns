@@ -1,0 +1,110 @@
+
+# 🧠 Project: Order Management System with Design Patterns and Hexagonal Architecture
+
+This is a hands-on study project demonstrating the use of key **Design Patterns** in a real-world context using **Spring Boot** and **Hexagonal Architecture**. It was built to serve as a reference for developers looking to understand and apply clean code principles, decoupled design, and professional practices in Java backend development.
+
+---
+
+## ✅ Design Patterns Applied
+
+| Pattern            | Purpose & Usage                                                                 |
+|--------------------|----------------------------------------------------------------------------------|
+| **Strategy**        | Calculates discounts based on customer type (`DescontoStrategy`)               |
+| **Factory**         | Instantiates the correct discount strategy dynamically (`DescontoFactory`)     |
+| **Observer**        | Triggers services (email, stock, invoice) after order creation (`PedidoNotifier`) |
+| **Decorator**       | Adds behavior to reports without modifying the base class (`Relatorio`)         |
+| **External Config** | Uses `application.properties` with `@Value` for environment configuration       |
+
+---
+
+## 🧱 Hexagonal Architecture Overview
+
+- **domain**: core entities, enums, interfaces, and business contracts
+- **application**: business orchestration and service layer logic
+- **infrastructure**: technical integrations (notifiers, config)
+- **rest**: HTTP interface (Spring REST controllers)
+
+---
+
+## 🚀 How to Run
+
+```bash
+./mvnw spring-boot:run        # Linux/macOS
+.\mvnw.cmd spring-boot:run    # Windows
+```
+
+---
+
+## 🧪 Run Tests
+
+```bash
+./mvnw test
+```
+
+Unit tests are written with JUnit 5. No mocking frameworks are used — dependencies are manually instantiated to ensure compatibility with Java 24+ and maintain clear test coverage.
+
+---
+
+## 📁 Project Structure
+
+```
+pedido-design-patterns
+├── domain/
+│   ├── Pedido, TipoCliente
+│   ├── desconto/
+│   ├── evento/
+│   └── relatorio/
+├── application/
+│   └── PedidoService.java
+├── infrastructure/
+│   ├── config/
+│   ├── service/
+│   └── rest/
+├── test/
+│   └── PedidoServiceTest.java
+├── resources/
+│   └── application.properties
+└── PedidoApplication.java
+```
+
+---
+
+## 📊 Sample HTTP Requests
+
+### Create Order
+
+```http
+POST /pedidos
+Content-Type: application/json
+
+{
+  "id": 1,
+  "valor": 100.00,
+  "tipoCliente": "VIP"
+}
+```
+
+### Get Decorated Report
+
+```http
+GET /pedidos/relatorio
+```
+
+---
+
+## 📌 About this Project
+
+This project was designed for **educational and demonstration purposes**. It is a clean example of how to apply foundational design patterns within a structured and maintainable Java backend system.
+
+It’s ideal for:
+- Understanding how to structure Spring Boot projects using Hexagonal Architecture
+- Learning how to apply behavioral and creational patterns in real services
+- Using external configuration to decouple environments from business logic
+
+---
+
+## 🧠 Author & Credits
+
+Developed by **Danilo Valim** – Backend Java Developer  
+Feel free to use, fork or adapt this project as part of your own learning journey or portfolio.
+
