@@ -1,8 +1,7 @@
 
 # 🧠 Projeto: Sistema de Pedidos com Design Patterns e Arquitetura Hexagonal
 
-📘 [Documentação JavaDoc](https://h2danilo.github.io/exemplos-design-patterns/)
-
+[![JavaDoc](https://img.shields.io/badge/docs-javadoc-blue.svg)](https://h2danilo.github.io/exemplos-design-patterns/)
 [![Java CI with Maven](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml/badge.svg)](https://github.com/h2danilo/exemplos-design-patterns/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/h2danilo/exemplos-design-patterns/branch/main/graph/badge.svg)](https://codecov.io/gh/h2danilo/exemplos-design-patterns)
 
