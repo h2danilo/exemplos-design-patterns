@@ -1,19 +1,19 @@
 
 # 🧠 Projeto: Sistema de Pedidos com Design Patterns e Arquitetura Hexagonal
 
-Este projeto demonstra a aplicação dos principais **Design Patterns cobrados em entrevistas técnicas** usando **Spring Boot** com **arquitetura hexagonal**, foco em **clean code** e **boas práticas**.
+Este projeto demonstra a aplicação prática de **padrões de projeto (Design Patterns)** usando **Spring Boot**, com foco em código limpo, boas práticas e arquitetura hexagonal. É um projeto de estudo e referência para quem deseja entender como aplicar esses conceitos em um sistema real.
 
 ---
 
 ## ✅ Padrões de Projeto Aplicados
 
-| Padrão         | Finalidade                                                                 |
-|----------------|----------------------------------------------------------------------------|
-| **Singleton**  | Gerenciamento global de configurações com `enum` seguro (`Configuracoes`) |
-| **Strategy**   | Cálculo de desconto baseado no tipo de cliente                             |
-| **Factory**    | Instancia a estratégia correta de desconto                                 |
-| **Observer**   | Notifica automaticamente ações após criação de pedido                      |
-| **Decorator**  | Adiciona funcionalidades ao relatório sem alterar a classe base           |
+| Padrão             | Onde foi aplicado                                                        |
+|--------------------|---------------------------------------------------------------------------|
+| **Strategy**        | Cálculo de desconto baseado no tipo de cliente (`DescontoStrategy`)      |
+| **Factory**         | Instancia a estratégia correta dinamicamente (`DescontoFactory`)         |
+| **Observer**        | Ações automáticas após a criação de pedido (`PedidoNotifier`)            |
+| **Decorator**       | Composição dinâmica de funcionalidades em relatórios (`Relatorio`)       |
+| **Injeção de Configuração** | Leitura do ambiente via `application.properties` com `@Value`         |
 
 ---
 
@@ -21,22 +21,55 @@ Este projeto demonstra a aplicação dos principais **Design Patterns cobrados e
 
 - **domain**: entidades, enums e interfaces (core de negócio)
 - **application**: orquestração dos casos de uso
-- **infrastructure**: implementação de serviços externos (e-mail, Slack)
-- **adapters**: interfaces REST, listeners de eventos etc.
+- **infrastructure**: implementação de serviços externos e configuração
+- **rest**: interface HTTP (controladores REST)
 
 ---
 
 ## 🚀 Como Rodar
 
 ```bash
-git clone https://github.com/seu-usuario/pedido-design-patterns.git
-cd pedido-design-patterns
-./mvnw spring-boot:run
+./mvnw spring-boot:run        # Linux/macOS
+.\mvnw.cmd spring-boot:run    # Windows
 ```
 
 ---
 
-## 🧪 Exemplo de Requisição
+## 🧪 Executar Testes
+
+```bash
+./mvnw test
+```
+
+Os testes utilizam `JUnit 5`, sem uso de Mockito, com instância manual das dependências para maior clareza e compatibilidade com Java 24+.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+pedido-design-patterns
+├── domain
+│   ├── Pedido, TipoCliente
+│   ├── desconto/
+│   ├── evento/
+│   └── relatorio/
+├── application/
+│   └── PedidoService
+├── infrastructure/
+│   ├── config/
+│   ├── service/
+│   └── rest/
+├── resources/
+│   └── application.properties
+├── test/
+│   └── PedidoServiceTest
+└── PedidoApplication.java
+```
+
+---
+
+## 📊 Exemplo de Requisição
 
 ### Criar Pedido
 
@@ -51,6 +84,8 @@ Content-Type: application/json
 }
 ```
 
+---
+
 ### Gerar Relatório Decorado
 
 ```http
@@ -59,40 +94,7 @@ GET /pedidos/relatorio
 
 ---
 
-## ✨ Diferenciais
+## 🧠 Finalidade
 
-- Padrões prontos para responder em entrevistas
-- Código limpo e desacoplado
-- Estrutura pronta para expandir para testes, banco e REST completo
+Este projeto tem finalidade exclusivamente didática, voltado para estudos e referência sobre boas práticas de arquitetura e aplicação de padrões de projeto no ecossistema Java com Spring Boot.
 
----
-
-## 📁 Estrutura de Pacotes
-
-```
-pedido
-├── domain
-│   ├── Pedido, TipoCliente, Configuracoes
-│   ├── desconto (Strategy + Factory)
-│   └── evento (Observer)
-├── application
-│   └── PedidoService
-├── infrastructure
-│   └── (Notificadores, Estoque, NF - futuros)
-├── adapters
-│   └── PedidoController
-└── PedidoApplication.java
-```
-
----
-
-## 🧠 Ideal para
-
-- Portfólio técnico
-- Provas de conceito
-- Estudo de arquitetura e boas práticas
-- Preparação para entrevistas backend
-
----
-
-**Desenvolvido por [Seu Nome] - Back-end Java Developer**
