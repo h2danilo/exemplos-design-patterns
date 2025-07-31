@@ -1,0 +1,9 @@
+com.example.pedido
+com.example.pedido.application
+com.example.pedido.domain
+com.example.pedido.domain.desconto
+com.example.pedido.domain.evento
+com.example.pedido.domain.relatorio
+com.example.pedido.infrastructure.config
+com.example.pedido.infrastructure.rest
+com.example.pedido.infrastructure.service
