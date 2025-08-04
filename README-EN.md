@@ -21,12 +21,22 @@ This project demonstrates the practical application of **Design Patterns** using
 
 ## 🧱 Hexagonal Architecture
 
-The hexagonal architecture organizes the project into:
+The hexagonal architecture (also known as Ports and Adapters) organizes the project into:
 
-- **Domain (Core)**: Entities, services, and pure business rules.
-- **Application (Use Cases)**: Orquestra os serviços do domínio.
-- **Infrastructure**: Technical implementations (e.g. email sending, persistence).
-- **Adapters**: Input/output interfaces (e.g. REST Controllers).
+- **Domain (Core)**: 
+  - **Model**: Entities and value objects (Pedido, TipoCliente)
+  - **Event**: Domain events (PedidoCriadoEvent)
+  - **Desconto**: Discount strategies (Strategy Pattern)
+
+- **Application**:
+  - **Port/In**: Input ports (interfaces like PedidoUseCase)
+  - **Port/Out**: Output ports (interfaces like PedidoNotifierPort, EstoqueUpdaterPort)
+  - **Service**: Use case implementations (PedidoService)
+
+- **Infrastructure**:
+  - **Adapter/In**: Input adapters (REST Controllers)
+  - **Adapter/Out**: Output adapters (NotificadorEmailAdapter, AtualizadorEstoqueAdapter)
+  - **Config**: Application configurations
 
 ---
 

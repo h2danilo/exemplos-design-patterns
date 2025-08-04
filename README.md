@@ -21,12 +21,22 @@ Este projeto demonstra a aplicação prática de **padrões de projeto (Design P
 
 ## 🧱 Arquitetura Hexagonal
 
-A arquitetura hexagonal organiza o projeto em:
+A arquitetura hexagonal (também conhecida como Ports and Adapters) organiza o projeto em:
 
-- **Domínio (Core)**: Entidades, serviços e regras de negócio puras.
-- **Aplicação (Use Cases)**: Orquestra os serviços do domínio.
-- **Infraestrutura**: Implementações técnicas (e.g. envio de e-mail, persistência).
-- **Adaptadores**: Interfaces de entrada/saída (e.g. REST Controllers).
+- **Domínio (Core)**: 
+  - **Model**: Entidades e objetos de valor (Pedido, TipoCliente)
+  - **Event**: Eventos de domínio (PedidoCriadoEvent)
+  - **Desconto**: Estratégias de desconto (Strategy Pattern)
+
+- **Aplicação**:
+  - **Port/In**: Portas de entrada (interfaces como PedidoUseCase)
+  - **Port/Out**: Portas de saída (interfaces como PedidoNotifierPort, EstoqueUpdaterPort)
+  - **Service**: Implementações dos casos de uso (PedidoService)
+
+- **Infraestrutura**:
+  - **Adapter/In**: Adaptadores de entrada (REST Controllers)
+  - **Adapter/Out**: Adaptadores de saída (NotificadorEmailAdapter, AtualizadorEstoqueAdapter)
+  - **Config**: Configurações da aplicação
 
 ---
 

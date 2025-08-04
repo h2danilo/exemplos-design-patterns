@@ -9,46 +9,46 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Testes unitários para o adaptador de atualização de estoque.
+ * Testes unitários para o adaptador de geração de nota fiscal.
  */
-public class AtualizadorEstoqueTest {
+public class GeradorNotaFiscalAdapterTest {
 
     @Test
-    void deveAtualizarEstoqueAoExecutar() {
+    void deveGerarNotaFiscalAoExecutar() {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-
-        AtualizadorEstoqueAdapter atualizador = new AtualizadorEstoqueAdapter();
+        
+        GeradorNotaFiscalAdapter gerador = new GeradorNotaFiscalAdapter();
         Pedido pedido = new Pedido(1L, new BigDecimal("100.00"), TipoCliente.VIP);
-
+        
         // Act
-        atualizador.atualizarEstoque(pedido);
-
+        gerador.gerarNota(pedido);
+        
         // Assert
         String output = outputStream.toString();
-        assertTrue(output.contains("[Estoque] Atualizando estoque para o pedido 1"));
-
+        assertTrue(output.contains("[Nota Fiscal] Gerando nota fiscal para o pedido 1"));
+        
         // Restaura System.out
         System.setOut(System.out);
     }
-
+    
     @Test
-    void deveAtualizarEstoqueParaPedidoComValorZero() {
+    void deveGerarNotaFiscalParaPedidoComValorZero() {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-
-        AtualizadorEstoqueAdapter atualizador = new AtualizadorEstoqueAdapter();
+        
+        GeradorNotaFiscalAdapter gerador = new GeradorNotaFiscalAdapter();
         Pedido pedido = new Pedido(2L, BigDecimal.ZERO, TipoCliente.PADRAO);
-
+        
         // Act
-        atualizador.atualizarEstoque(pedido);
-
+        gerador.gerarNota(pedido);
+        
         // Assert
         String output = outputStream.toString();
-        assertTrue(output.contains("[Estoque] Atualizando estoque para o pedido 2"));
-
+        assertTrue(output.contains("[Nota Fiscal] Gerando nota fiscal para o pedido 2"));
+        
         // Restaura System.out
         System.setOut(System.out);
     }

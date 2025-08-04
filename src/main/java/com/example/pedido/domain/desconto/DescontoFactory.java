@@ -1,7 +1,7 @@
 
 package com.example.pedido.domain.desconto;
 
-import com.example.pedido.domain.TipoCliente;
+import com.example.pedido.domain.model.TipoCliente;
 
 public class DescontoFactory {
     public static DescontoStrategy getStrategy(TipoCliente tipo) {

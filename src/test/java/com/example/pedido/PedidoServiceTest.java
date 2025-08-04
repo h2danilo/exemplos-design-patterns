@@ -1,22 +1,25 @@
 
 package com.example.pedido;
 
-import com.example.pedido.application.PedidoService;
-import com.example.pedido.domain.Pedido;
-import com.example.pedido.domain.TipoCliente;
-import com.example.pedido.domain.evento.PedidoNotifier;
+import com.example.pedido.application.port.in.PedidoUseCase;
+import com.example.pedido.application.port.out.EstoqueUpdaterPort;
+import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
+import com.example.pedido.application.port.out.PedidoNotifierPort;
+import com.example.pedido.application.service.PedidoService;
+import com.example.pedido.domain.model.Pedido;
+import com.example.pedido.domain.model.TipoCliente;
 import com.example.pedido.infrastructure.config.AppProperties;
-import com.example.pedido.infrastructure.service.NotificadorEmail;
-import com.example.pedido.infrastructure.service.AtualizadorEstoque;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testes unitários da regra de aplicação de desconto em pedidos.
- * Melhor prática: não usa Mockito, usa instâncias reais para garantir simplicidade e compatibilidade com Java 24+.
+ * Adaptado para arquitetura hexagonal com portas e adaptadores.
  */
 public class PedidoServiceTest {
 
@@ -35,25 +38,39 @@ public class PedidoServiceTest {
             }
         };
 
-        PedidoNotifier notifier = new PedidoNotifier();
-        notifier.adicionar(new NotificadorEmail(props));
-        notifier.adicionar(new AtualizadorEstoque());
+        // Criando adaptadores de teste
+        List<PedidoNotifierPort> notificadores = new ArrayList<>();
+        notificadores.add(pedido -> System.out.println("[Email] Enviando email de confirmação para o pedido " + pedido.getId()));
 
-        PedidoService service = new PedidoService(notifier);
+        EstoqueUpdaterPort estoqueUpdater = pedido -> 
+            System.out.println("[Estoque] Atualizando estoque para o pedido " + pedido.getId());
 
+        NotaFiscalGeneratorPort notaFiscalGenerator = pedido -> 
+            System.out.println("[Nota Fiscal] Gerando nota fiscal para o pedido " + pedido.getId());
+
+        // Criando o serviço de aplicação com as portas
+        PedidoUseCase pedidoUseCase = new PedidoService(notificadores, estoqueUpdater, notaFiscalGenerator);
+
+        // Criando e processando o pedido
         Pedido pedido = new Pedido(1L, new BigDecimal("100.00"), TipoCliente.VIP);
-        Pedido resultado = service.criarPedido(pedido);
+        Pedido resultado = pedidoUseCase.criarPedido(pedido);
 
         assertEquals(new BigDecimal("90.00").setScale(2), resultado.getValor().setScale(2));
     }
 
     @Test
     void deveManterValorParaClientePadrao() {
+        // Criando adaptadores de teste vazios
+        List<PedidoNotifierPort> notificadores = new ArrayList<>();
+        EstoqueUpdaterPort estoqueUpdater = pedido -> {};
+        NotaFiscalGeneratorPort notaFiscalGenerator = pedido -> {};
+
+        // Criando o serviço de aplicação com as portas
+        PedidoUseCase pedidoUseCase = new PedidoService(notificadores, estoqueUpdater, notaFiscalGenerator);
+
+        // Criando e processando o pedido
         Pedido pedido = new Pedido(2L, new BigDecimal("100.00"), TipoCliente.PADRAO);
-
-        PedidoService service = new PedidoService(new PedidoNotifier());
-
-        Pedido resultado = service.criarPedido(pedido);
+        Pedido resultado = pedidoUseCase.criarPedido(pedido);
 
         assertEquals(new BigDecimal("100.00").setScale(2), resultado.getValor().setScale(2));
     }

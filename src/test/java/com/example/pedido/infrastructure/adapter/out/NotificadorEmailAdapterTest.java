@@ -1,7 +1,7 @@
-package com.example.pedido.infrastructure.service;
+package com.example.pedido.infrastructure.adapter.out;
 
-import com.example.pedido.domain.Pedido;
-import com.example.pedido.domain.TipoCliente;
+import com.example.pedido.domain.model.Pedido;
+import com.example.pedido.domain.model.TipoCliente;
 import com.example.pedido.infrastructure.config.AppProperties;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Testes unitários para o notificador de email.
+ * Testes unitários para o adaptador de notificação por email.
  */
-public class NotificadorEmailTest {
+public class NotificadorEmailAdapterTest {
 
     @Test
     void deveEnviarEmailEmAmbienteProducao() {
@@ -32,7 +32,7 @@ public class NotificadorEmailTest {
             }
         };
         
-        NotificadorEmail notificador = new NotificadorEmail(propertiesProducao);
+        NotificadorEmailAdapter notificador = new NotificadorEmailAdapter();
         Pedido pedido = new Pedido(1L, new BigDecimal("100.00"), TipoCliente.VIP);
         
         // Act
@@ -40,39 +40,27 @@ public class NotificadorEmailTest {
         
         // Assert
         String output = outputStream.toString();
-        assertTrue(output.contains("[Email] Enviando email para pedido 1"));
+        assertTrue(output.contains("[Email] Enviando email de confirmação para o pedido 1"));
         
         // Restaura System.out
         System.setOut(System.out);
     }
     
     @Test
-    void deveSimularEnvioEmailEmAmbienteNaoProducao() {
+    void deveNotificarPedidoComValorZero() {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
         
-        AppProperties propertiesDesenvolvimento = new AppProperties() {
-            @Override
-            public boolean isProducao() {
-                return false;
-            }
-            
-            @Override
-            public String getAmbiente() {
-                return "desenvolvimento";
-            }
-        };
-        
-        NotificadorEmail notificador = new NotificadorEmail(propertiesDesenvolvimento);
-        Pedido pedido = new Pedido(2L, new BigDecimal("200.00"), TipoCliente.PADRAO);
+        NotificadorEmailAdapter notificador = new NotificadorEmailAdapter();
+        Pedido pedido = new Pedido(2L, BigDecimal.ZERO, TipoCliente.PADRAO);
         
         // Act
         notificador.notificar(pedido);
         
         // Assert
         String output = outputStream.toString();
-        assertTrue(output.contains("[Sandbox] Simulando envio de e-mail para pedido 2"));
+        assertTrue(output.contains("[Email] Enviando email de confirmação para o pedido 2"));
         
         // Restaura System.out
         System.setOut(System.out);

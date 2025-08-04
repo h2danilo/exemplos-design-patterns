@@ -1,14 +1,9 @@
 
-package com.example.pedido.infrastructure.service;
-
-import com.example.pedido.domain.Pedido;
-import com.example.pedido.domain.evento.PedidoObserver;
-import org.springframework.stereotype.Component;
-
-@Component
-public class AtualizadorEstoque implements PedidoObserver {
-    @Override
-    public void notificar(Pedido pedido) {
-        System.out.println("[Estoque] Atualizando estoque para o pedido " + pedido.getId());
-    }
-}
+/**
+ * Esta classe foi substituída por um adaptador que implementa a porta de saída
+ * como parte da refatoração para arquitetura hexagonal.
+ * 
+ * @see com.example.pedido.application.port.out.EstoqueUpdaterPort
+ * @see com.example.pedido.infrastructure.adapter.out.AtualizadorEstoqueAdapter
+ * @deprecated Use AtualizadorEstoqueAdapter que implementa EstoqueUpdaterPort
+ */
