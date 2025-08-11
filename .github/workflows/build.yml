@@ -49,10 +49,10 @@ jobs:
         env:
           BP_JVM_VERSION: "21"
           BP_JVM_TYPE: "JRE"
+          SPRING_BOOT_BUILD_IMAGE_BUILDER: "paketobuildpacks/builder:full"
+          SPRING_BOOT_BUILD_IMAGE_IMAGENAME: "${{ env.IMAGE_REPO }}:${{ steps.vars.outputs.version }}"
         run: |
-          mvn -B -DskipTests spring-boot:build-image \
-            -Dspring-boot.build-image.builder=paketobuildpacks/builder:full \
-            -Dspring-boot.build-image.imageName=${{ env.IMAGE_REPO }}:${{ steps.vars.outputs.version }}
+            mvn -B -DskipTests spring-boot:build-image
 
       - name: Tag & Push
         if: github.event_name == 'push'
