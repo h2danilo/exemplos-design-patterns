@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: design-patterns-config
+  labels:
+    app: design-patterns-app
+data:
+  APP_NAME: "design-patterns"
+  LOG_LEVEL: "INFO" # INFO em prod, DEBUG em dev
+  EXTERNAL_API_BASE_URL: "https://api.exemplo.com"
+  FEATURE_X_ENABLED: "false"
+  CACHE_TTL_SECONDS: "300"
+  MANAGEMENT_HEALTH_SHOW_DETAILS: "never" # "always" em dev

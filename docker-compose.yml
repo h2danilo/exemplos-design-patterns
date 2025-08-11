@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: sistema-pedidos
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: unless-stopped
+    # Se no futuro a aplicação precisar de um banco de dados, você pode adicionar:
+    # depends_on:
+    #   - db
+    networks:
+      - pedido-network
+
+# Se no futuro a aplicação precisar de um banco de dados, você pode adicionar:
+# db:
+#   image: postgres:14-alpine
+#   container_name: pedido-db
+#   ports:
+#     - "5432:5432"
+#   environment:
+#     - POSTGRES_DB=pedidodb
+#     - POSTGRES_USER=pedidouser
+#     - POSTGRES_PASSWORD=pedidopass
+#   volumes:
+#     - pedido-db-data:/var/lib/postgresql/data
+#   networks:
+#     - pedido-network
+
+networks:
+  pedido-network:
+    driver: bridge
+
+# volumes:
+#   pedido-db-data:

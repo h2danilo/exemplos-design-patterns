@@ -10,8 +10,12 @@
   <description>Projeto de estudo com padrões de projeto usando Spring Boot</description>
 
   <properties>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <spring-boot.version>3.1.5</spring-boot.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
   <parent>
@@ -32,13 +36,46 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- Health, liveness/readiness, metrics -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- Expor métricas /actuator/prometheus -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+
+    <!-- Gera metadata para @ConfigurationProperties -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <imageName>ghcr.io/h2danilo/exemplos-design-patterns:${project.version}</imageName>
+          <layers enabled="true"/>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

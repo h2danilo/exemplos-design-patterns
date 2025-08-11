@@ -90,3 +90,25 @@ cd exemplos-design-patterns
 # Run the application
 ./mvnw spring-boot:run
 ```
+
+---
+
+## 🐳 Deployment
+
+For detailed instructions on how to deploy this application using Docker, Docker Compose, or on cloud providers, check our [Deployment Guide](docs/deployment-guide.md).
+
+The guide includes:
+- Creating a Dockerfile
+- Docker Compose configuration
+- Deployment options on AWS, Google Cloud, and Azure
+- Advanced deployment with Kubernetes
+
+### Kubernetes
+
+The Kubernetes configuration files are available in the `k8s` folder and include:
+- `deployment.yaml` - Application deployment configuration
+- `service.yaml` - Service configuration to expose the application
+- `configmap.yaml` - Application configurations
+- `ingress.yaml` - Ingress configuration for external access
+
+For recommendations on how to enhance the Docker and Kubernetes implementation for practical demonstration, see our [Enhancement Recommendations](docs/docker-kubernetes-enhancements-en.md).
