@@ -73,7 +73,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <imageName>ghcr.io/h2danilo/exemplos-design-patterns:${project.version}</imageName>
+          <image>
+            <name>ghcr.io/h2danilo/exemplos-design-patterns:${project.version}</name>
+            <builder>paketobuildpacks/builder:full</builder> </image>
           <layers enabled="true"/>
         </configuration>
       </plugin>
