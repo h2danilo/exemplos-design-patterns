@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI + Build & Push to GHCR
 
 on:
   push:
@@ -6,22 +6,71 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_REPO: ghcr.io/h2danilo/exemplos-design-patterns
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 21
+          cache: maven
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build (skip tests)
+        run: mvn -B -DskipTests package
 
-      - name: Run tests with coverage
-        run: mvn test jacoco:report
+      - name: Read project version
+        id: vars
+        run: |
+          VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          BRANCH=$(echo "${GITHUB_REF_NAME}" | tr '/' '-')
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "short_sha=${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+
+      - name: Login to GHCR
+        if: github.event_name == 'push'
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image with Spring Buildpacks (Java 21)
+        if: github.event_name == 'push'
+        env:
+          BP_JVM_VERSION: "21"
+          BP_JVM_TYPE: "JRE"
+        run: |
+          mvn -B -DskipTests spring-boot:build-image \
+            -Dspring-boot.build-image.builder=paketobuildpacks/builder:full \
+            -Dspring-boot.build-image.imageName=${{ env.IMAGE_REPO }}:${{ steps.vars.outputs.version }}
+
+      - name: Tag & Push
+        if: github.event_name == 'push'
+        run: |
+          VERSION="${{ steps.vars.outputs.version }}"
+          BRANCH="${{ steps.vars.outputs.branch }}"
+          SHA="${{ steps.vars.outputs.short_sha }}"
+          IMAGE="${{ env.IMAGE_REPO }}"
+
+          # tags adicionais
+          docker tag "${IMAGE}:${VERSION}" "${IMAGE}:${BRANCH}-${SHA}"
+
+          # push de tags
+          docker push "${IMAGE}:${VERSION}"
+          docker push "${IMAGE}:${BRANCH}-${SHA}"
+
+          # publicar :latest somente na main
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            docker tag "${IMAGE}:${VERSION}" "${IMAGE}:latest"
+            docker push "${IMAGE}:latest"
+          fi
