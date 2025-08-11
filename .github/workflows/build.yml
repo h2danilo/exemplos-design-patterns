@@ -52,7 +52,7 @@ jobs:
           SPRING_BOOT_BUILD_IMAGE_BUILDER: "paketobuildpacks/builder:full"
           SPRING_BOOT_BUILD_IMAGE_IMAGENAME: "${{ env.IMAGE_REPO }}:${{ steps.vars.outputs.version }}"
         run: |
-            mvn -B -DskipTests spring-boot:build-image
+          mvn -B -DskipTests -Djacoco.skip=true spring-boot:build-image
 
       - name: Tag & Push
         if: github.event_name == 'push'
