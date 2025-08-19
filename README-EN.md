@@ -95,7 +95,7 @@ cd exemplos-design-patterns
 
 ## 🐳 Deployment
 
-For detailed instructions on how to deploy this application using Docker, Docker Compose, or on cloud providers, check our [Deployment Guide](docs/deployment-guide.md).
+For detailed instructions on how to deploy this application using Docker, Docker Compose, or on cloud providers, check our [Deployment Guide](./docs/deployment-guide.md).
 
 ### Current Implementation
 
