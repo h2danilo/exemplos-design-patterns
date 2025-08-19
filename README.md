@@ -97,18 +97,22 @@ cd exemplos-design-patterns
 
 Para instruções detalhadas sobre como fazer o deployment desta aplicação usando Docker, Docker Compose, ou em provedores de nuvem, consulte nosso [Guia de Deployment](docs/deployment-guide.md).
 
-O guia inclui:
-- Criação de Dockerfile
-- Configuração do Docker Compose
-- Opções de deployment em AWS, Google Cloud e Azure
-- Deployment avançado com Kubernetes
+### Implementação Atual
 
-### Kubernetes
+A aplicação está configurada para deployment com:
 
-Os arquivos de configuração para Kubernetes estão disponíveis na pasta `k8s` e incluem:
-- `deployment.yaml` - Configuração do deployment da aplicação
-- `service.yaml` - Configuração do serviço para expor a aplicação
-- `configmap.yaml` - Configurações da aplicação
-- `ingress.yaml` - Configuração de ingress para acesso externo
+- **Docker**: Utiliza um Dockerfile multi-estágio com Java 21
+  - Primeiro estágio: Maven com JDK 21 para build
+  - Segundo estágio: JRE 21 para runtime (imagem otimizada)
+  - Expõe a porta 8080
 
-Para recomendações sobre como aprimorar a implementação de Docker e Kubernetes para demonstração prática, consulte nossas [Recomendações de Aprimoramento](docs/docker-kubernetes-enhancements.md).
+- **Docker Compose**: Configuração simples para execução local
+  - Define um serviço para a aplicação
+  - Configura o perfil Spring como "prod"
+  - Prepara a infraestrutura para futuras integrações (como banco de dados)
+
+- **Kubernetes**: Configuração completa para ambientes de produção
+  - `deployment.yaml` - Deployment com 2 réplicas, estratégia RollingUpdate, probes de saúde, limites de recursos e configurações de segurança
+  - `service.yaml` - Serviço ClusterIP com anotações para monitoramento Prometheus
+  - `configmap.yaml` - Configurações da aplicação com variáveis para diferentes ambientes
+  - `ingress.yaml` - Configuração de ingress com NGINX para acesso externo via "design-patterns.example.com"
