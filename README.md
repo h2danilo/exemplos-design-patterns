@@ -42,9 +42,14 @@ A arquitetura hexagonal (também conhecida como Ports and Adapters) organiza o p
 
 ## 📦 Tecnologias e Ferramentas
 
-- **Java 17** – Linguagem principal usada no projeto.
-- **Spring Boot 3.1.5** – Framework para desenvolvimento de aplicações web e APIs.
+- **Java 21** – Linguagem principal usada no projeto.
+- **Spring Boot 3.3.2** – Framework para desenvolvimento de aplicações web e APIs.
 - **Maven** – Gerenciador de dependências e build.
+- **Docker** – Containerização da aplicação com multi-estágio para otimização.
+- **Kubernetes** – Orquestração de containers para ambientes de produção.
+- **GitHub Container Registry (GHCR)** – Registro de imagens Docker integrado ao GitHub.
+- **Spring Boot Actuator** – Monitoramento e métricas da aplicação.
+- **Micrometer Prometheus** – Exposição de métricas para monitoramento.
 - **JUnit & Mockito** – Frameworks de teste para garantir a qualidade e o comportamento do código.
 - **JaCoCo** – Ferramenta para análise de cobertura de testes.
 - **Codecov** – Serviço para análise e visualização da cobertura de código (via GitHub Actions).
