@@ -1,7 +1,7 @@
 package com.example.pedido.infrastructure.adapter.out;
 
 import com.example.pedido.application.port.out.PedidoNotifierPort;
-import com.example.pedido.domain.model.Pedido;
+import com.example.pedido.domain.evento.PedidoCriadoEvent;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class NotificadorSlackAdapter implements PedidoNotifierPort {
 
     @Override
-    public void notificar(Pedido pedido) {
+    public void notificarPedidoCriado(PedidoCriadoEvent evento) {
         System.out.println("[Slack] Enviando notificação no canal #pedidos: Novo pedido " + 
-                pedido.getId() + " criado com sucesso!");
+                evento.getPedido().getId() + " criado com sucesso!");
     }
 }

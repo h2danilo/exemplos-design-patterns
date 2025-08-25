@@ -1,48 +1,48 @@
 
 # Diagrama de Arquitetura Hexagonal - Sistema de Pedidos
 
-                                  +---------------------------+
-                                  |      PedidoController     | <- REST (Adapter de Entrada)
-                                  +---------------------------+
-                                            |
-                                            v
-                                  +------------------+
-                                  |  PedidoUseCase   | <- Porta de Entrada (Interface)
-                                  +------------------+
-                                            |
-                                            v
-                      +---------------------------------------+
-                      |         PedidoService                 | <- Camada de Aplicação
-                      | - Usa Factory para escolher Strategy  |
-                      | - Publica eventos de domínio          |
-                      +---------------------------------------+
-                                |           |
-              +----------------+            +----------------+
-              |                                              |
-              v                                              v
-    +------------------+                          +------------------+
-    | Desconto VIP     |                          | Portas de Saída  |
-    | Desconto Padrão  |                          | (Interfaces)     |
-    | (Strategy)       |                          +------------------+
-    +------------------+                                   |
-                                                           |
-                      +----------------------------------+
-                      |                |                 |
-                      v                v                 v
-          +---------------------+ +----------+ +-------------------+
-          | PedidoNotifierPort  | | Estoque  | | NotaFiscalPort    |
-          +---------------------+ | Port     | +-------------------+
-                    |            +----------+           |
-                    |                 |                 |
-                    v                 v                 v
-          +---------------------+ +----------+ +-------------------+
-          | Adapters de Saída   | | Estoque  | | NotaFiscal        |
-          | (Implementações)    | | Adapter  | | Adapter           |
-          +---------------------+ +----------+ +-------------------+
-                    |
-        +-----------+-----------+
-        |           |           |
-        v           v           v
-  NotificadorEmail  |  NotificadorSlack
-                    |
+                                  +---------------------------+                 +---------------------------+
+                                  |      PedidoController     | <- REST        |    PedidoEventConsumer    | <- Kafka
+                                  +---------------------------+                 +---------------------------+
+                                            |                                              |
+                                            v                                              v
+                                  +------------------+                          +------------------+
+                                  |  PedidoUseCase   | <- Portas de Entrada     |  Eventos Kafka   | <- Tópico: pedido-criado
+                                  +------------------+    (Interfaces)           +------------------+
+                                            |                                              ^
+                                            v                                              |
+                      +---------------------------------------+                            |
+                      |        PedidoUseCaseImpl              | <- Camada de Aplicação     |
+                      | - Usa Factory para escolher Strategy  |                            |
+                      | - Publica eventos de domínio          |----------------------------|
+                      +---------------------------------------+    PedidoCriadoEvent       |
+                                |           |                                              |
+              +----------------+            +----------------+                             |
+              |                                              |                             |
+              v                                              v                             |
+    +------------------+                          +------------------+                     |
+    | Desconto VIP     |                          | Portas de Saída  |                     |
+    | Desconto Padrão  |                          | (Interfaces)     |                     |
+    | (Strategy)       |                          +------------------+                     |
+    +------------------+                                   |                               |
+                                                           |                               |
+                      +----------------------------------+                                 |
+                      |                |                 |                                 |
+                      v                v                 v                                 |
+          +---------------------+ +----------+ +-------------------+                       |
+          | PedidoNotifierPort  | | Estoque  | | NotaFiscalPort    |                       |
+          +---------------------+ | Port     | +-------------------+                       |
+                    |            +----------+           |                                  |
+                    |                 |                 |                                  |
+                    v                 v                 v                                  |
+          +---------------------+ +----------+ +-------------------+                       |
+          | Adapters de Saída   | | Estoque  | | NotaFiscal        |                       |
+          | (Implementações)    | | Adapter  | | Adapter           |                       |
+          +---------------------+ +----------+ +-------------------+                       |
+                    |                                                                      |
+        +-----------+-----------+                                                          |
+        |           |           |                                                          |
+        v           v           v                                                          |
+  NotificadorEmail  |  NotificadorSlack  KafkaPedidoNotifierAdapter ---------------------->|
+                    |                    (Publica eventos no Kafka)
             AtualizadorEstoque

@@ -1,7 +1,7 @@
 package com.example.pedido.infrastructure.adapter.out;
 
 import com.example.pedido.application.port.out.PedidoNotifierPort;
-import com.example.pedido.domain.model.Pedido;
+import com.example.pedido.domain.evento.PedidoCriadoEvent;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class NotificadorEmailAdapter implements PedidoNotifierPort {
 
     @Override
-    public void notificar(Pedido pedido) {
-        System.out.println("[Email] Enviando email de confirmação para o pedido " + pedido.getId());
+    public void notificarPedidoCriado(PedidoCriadoEvent evento) {
+        System.out.println("[Email] Enviando email de confirmação para o pedido " + evento.getPedido().getId());
     }
 }

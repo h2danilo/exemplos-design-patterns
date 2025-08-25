@@ -4,7 +4,7 @@ import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
 import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
-import com.example.pedido.application.service.PedidoService;
+import com.example.pedido.application.useCase.PedidoUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +26,6 @@ public class ApplicationConfig {
             List<PedidoNotifierPort> notificadores,
             EstoqueUpdaterPort estoqueUpdater,
             NotaFiscalGeneratorPort notaFiscalGenerator) {
-        return new PedidoService(notificadores, estoqueUpdater, notaFiscalGenerator);
+        return new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
     }
 }

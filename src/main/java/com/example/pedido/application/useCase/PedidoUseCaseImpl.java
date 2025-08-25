@@ -1,4 +1,4 @@
-package com.example.pedido.application.service;
+package com.example.pedido.application.useCase;
 
 import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
@@ -6,7 +6,7 @@ import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
 import com.example.pedido.domain.model.Pedido;
 import com.example.pedido.domain.desconto.DescontoFactory;
-import com.example.pedido.domain.event.PedidoCriadoEvent;
+import com.example.pedido.domain.evento.PedidoCriadoEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +16,13 @@ import java.util.List;
  * Aplica o padrão Strategy via Factory e dispara eventos de domínio
  */
 @Service
-public class PedidoService implements PedidoUseCase {
+public class PedidoUseCaseImpl implements PedidoUseCase {
 
     private final List<PedidoNotifierPort> notificadores;
     private final EstoqueUpdaterPort estoqueUpdater;
     private final NotaFiscalGeneratorPort notaFiscalGenerator;
 
-    public PedidoService(
+    public PedidoUseCaseImpl(
             List<PedidoNotifierPort> notificadores,
             EstoqueUpdaterPort estoqueUpdater,
             NotaFiscalGeneratorPort notaFiscalGenerator) {
@@ -53,14 +53,14 @@ public class PedidoService implements PedidoUseCase {
 
     private void processarEvento(PedidoCriadoEvent evento) {
         Pedido pedido = evento.getPedido();
-        
+
         // Atualiza o estoque
         estoqueUpdater.atualizarEstoque(pedido);
-        
+
         // Gera a nota fiscal
         notaFiscalGenerator.gerarNota(pedido);
-        
+
         // Notifica por diferentes canais
-        notificadores.forEach(notificador -> notificador.notificar(pedido));
+        notificadores.forEach(notificador -> notificador.notificarPedidoCriado(evento));
     }
 }

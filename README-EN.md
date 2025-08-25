@@ -31,7 +31,7 @@ The hexagonal architecture (also known as Ports and Adapters) organizes the proj
 - **Application**:
   - **Port/In**: Input ports (interfaces like PedidoUseCase)
   - **Port/Out**: Output ports (interfaces like PedidoNotifierPort, EstoqueUpdaterPort)
-  - **Service**: Use case implementations (PedidoService)
+  - **useCase**: Use case implementations (PedidoUseCaseImpl)
 
 - **Infrastructure**:
   - **Adapter/In**: Input adapters (REST Controllers)
@@ -48,6 +48,8 @@ The hexagonal architecture (also known as Ports and Adapters) organizes the proj
 - **Docker** – Application containerization with multi-stage builds for optimization.
 - **Kubernetes** – Container orchestration for production environments.
 - **GitHub Container Registry (GHCR)** – Docker image registry integrated with GitHub.
+- **Apache Kafka** – Event streaming platform for asynchronous communication.
+- **Spring Kafka** – Spring integration with Apache Kafka.
 - **Spring Boot Actuator** – Application monitoring and metrics.
 - **Micrometer Prometheus** – Metrics exposure for monitoring.
 - **JUnit & Mockito** – Testing frameworks to ensure code quality and behavior.
@@ -85,6 +87,8 @@ mvn javadoc:javadoc
 
 ## 🚀 How to Run
 
+### Using Maven
+
 ```bash
 # Clone the project
 git clone https://github.com/h2danilo/exemplos-design-patterns.git
@@ -94,6 +98,25 @@ cd exemplos-design-patterns
 
 # Run the application
 ./mvnw spring-boot:run
+```
+
+### Using Docker Compose (with Kafka)
+
+```bash
+# Clone the project
+git clone https://github.com/h2danilo/exemplos-design-patterns.git
+
+# Enter the project folder
+cd exemplos-design-patterns
+
+# Start the application with Docker Compose (includes Kafka)
+docker-compose up -d
+
+# Check running services
+docker-compose ps
+
+# Access the Kafka UI interface
+# Open http://localhost:8090 in your browser
 ```
 
 ---
@@ -113,7 +136,8 @@ The application is configured for deployment with:
 
 - **Docker Compose**: Simple configuration for local execution
   - Defines a service for the application
-  - Configures Spring profile as "prod"
+  - Configures Spring profile as "dev"
+  - Includes Kafka services (broker, zookeeper, and management interface)
   - Prepares infrastructure for future integrations (such as databases)
 
 - **Kubernetes**: Complete configuration for production environments

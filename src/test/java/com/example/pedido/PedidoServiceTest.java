@@ -5,7 +5,8 @@ import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
 import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
-import com.example.pedido.application.service.PedidoService;
+import com.example.pedido.application.useCase.PedidoUseCaseImpl;
+import com.example.pedido.domain.evento.PedidoCriadoEvent;
 import com.example.pedido.domain.model.Pedido;
 import com.example.pedido.domain.model.TipoCliente;
 import com.example.pedido.infrastructure.config.AppProperties;
@@ -40,7 +41,7 @@ public class PedidoServiceTest {
 
         // Criando adaptadores de teste
         List<PedidoNotifierPort> notificadores = new ArrayList<>();
-        notificadores.add(pedido -> System.out.println("[Email] Enviando email de confirmação para o pedido " + pedido.getId()));
+        notificadores.add(evento -> System.out.println("[Email] Enviando email de confirmação para o pedido " + evento.getPedido().getId()));
 
         EstoqueUpdaterPort estoqueUpdater = pedido -> 
             System.out.println("[Estoque] Atualizando estoque para o pedido " + pedido.getId());
@@ -49,7 +50,7 @@ public class PedidoServiceTest {
             System.out.println("[Nota Fiscal] Gerando nota fiscal para o pedido " + pedido.getId());
 
         // Criando o serviço de aplicação com as portas
-        PedidoUseCase pedidoUseCase = new PedidoService(notificadores, estoqueUpdater, notaFiscalGenerator);
+        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
 
         // Criando e processando o pedido
         Pedido pedido = new Pedido(1L, new BigDecimal("100.00"), TipoCliente.VIP);
@@ -62,11 +63,12 @@ public class PedidoServiceTest {
     void deveManterValorParaClientePadrao() {
         // Criando adaptadores de teste vazios
         List<PedidoNotifierPort> notificadores = new ArrayList<>();
+        notificadores.add(evento -> {}); // Implementação vazia do notificador
         EstoqueUpdaterPort estoqueUpdater = pedido -> {};
         NotaFiscalGeneratorPort notaFiscalGenerator = pedido -> {};
 
         // Criando o serviço de aplicação com as portas
-        PedidoUseCase pedidoUseCase = new PedidoService(notificadores, estoqueUpdater, notaFiscalGenerator);
+        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
 
         // Criando e processando o pedido
         Pedido pedido = new Pedido(2L, new BigDecimal("100.00"), TipoCliente.PADRAO);
