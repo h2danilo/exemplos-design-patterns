@@ -3,12 +3,14 @@ package com.example.pedido;
 
 import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
+import com.example.pedido.application.port.out.MetricsPort;
 import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
 import com.example.pedido.application.useCase.PedidoUseCaseImpl;
 import com.example.pedido.domain.evento.PedidoCriadoEvent;
 import com.example.pedido.domain.model.Pedido;
 import com.example.pedido.domain.model.TipoCliente;
+import com.example.pedido.infrastructure.adapter.out.StubMetricsAdapter;
 import com.example.pedido.infrastructure.config.AppProperties;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +52,8 @@ public class PedidoServiceTest {
             System.out.println("[Nota Fiscal] Gerando nota fiscal para o pedido " + pedido.getId());
 
         // Criando o serviço de aplicação com as portas
-        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
+        MetricsPort metricsPort = new StubMetricsAdapter();
+        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator, metricsPort);
 
         // Criando e processando o pedido
         Pedido pedido = new Pedido(1L, new BigDecimal("100.00"), TipoCliente.VIP);
@@ -68,7 +71,8 @@ public class PedidoServiceTest {
         NotaFiscalGeneratorPort notaFiscalGenerator = pedido -> {};
 
         // Criando o serviço de aplicação com as portas
-        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
+        MetricsPort metricsPort = new StubMetricsAdapter();
+        PedidoUseCase pedidoUseCase = new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator, metricsPort);
 
         // Criando e processando o pedido
         Pedido pedido = new Pedido(2L, new BigDecimal("100.00"), TipoCliente.PADRAO);

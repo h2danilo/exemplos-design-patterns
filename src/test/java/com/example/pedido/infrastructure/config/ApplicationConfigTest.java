@@ -2,6 +2,7 @@ package com.example.pedido.infrastructure.config;
 
 import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
+import com.example.pedido.application.port.out.MetricsPort;
 import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
 import com.example.pedido.domain.model.Pedido;
@@ -10,6 +11,7 @@ import com.example.pedido.infrastructure.adapter.out.AtualizadorEstoqueAdapter;
 import com.example.pedido.infrastructure.adapter.out.GeradorNotaFiscalAdapter;
 import com.example.pedido.infrastructure.adapter.out.NotificadorEmailAdapter;
 import com.example.pedido.infrastructure.adapter.out.NotificadorSlackAdapter;
+import com.example.pedido.infrastructure.adapter.out.StubMetricsAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -38,9 +40,10 @@ public class ApplicationConfigTest {
         List<PedidoNotifierPort> notificadores = new ArrayList<>();
         notificadores.add(new NotificadorEmailAdapter());
         notificadores.add(new NotificadorSlackAdapter());
-        
+
         EstoqueUpdaterPort estoqueUpdater = new AtualizadorEstoqueAdapter();
         NotaFiscalGeneratorPort notaFiscalGenerator = new GeradorNotaFiscalAdapter();
+        MetricsPort metricsPort = new StubMetricsAdapter();
 
         ApplicationConfig config = new ApplicationConfig();
 
@@ -48,7 +51,8 @@ public class ApplicationConfigTest {
         PedidoUseCase pedidoUseCase = config.pedidoUseCase(
                 notificadores,
                 estoqueUpdater,
-                notaFiscalGenerator
+                notaFiscalGenerator,
+                metricsPort
         );
 
         // Assert
