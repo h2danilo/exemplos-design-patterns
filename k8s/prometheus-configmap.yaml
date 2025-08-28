@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  labels:
+    app: prometheus
+data:
+  prometheus_rules.yml: |
+    groups:
+    - name: pedidos
+      rules:
+      # Alerta para aplicação fora do ar
+      - alert: AplicacaoForaDoAr
+        expr: up{job="pedidos-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Aplicação fora do ar"
+          description: "A aplicação de pedidos está fora do ar há mais de 1 minuto"
+
+      # Alerta para queda brusca na taxa de criação de pedidos
+      - alert: QuedaBruscaTaxaCriacao
+        expr: rate(pedidos_criados_total[5m]) < 0.2 and rate(pedidos_criados_total[1h]) offset 1h > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queda brusca na taxa de criação de pedidos"
+          description: "A taxa de criação de pedidos caiu significativamente nos últimos 5 minutos"
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    # Configuração do Alertmanager
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets:
+              - alertmanager:9093
+
+    # Regras de alerta
+    rule_files:
+      - "/etc/prometheus/prometheus_rules.yml"
+
+    scrape_configs:
+      - job_name: 'pedidos-app'
+        metrics_path: '/actuator/prometheus'
+        scrape_interval: 5s
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            action: replace
+            target_label: kubernetes_service_name
