@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Configuração do Alertmanager
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Regras de alerta
+rule_files:
+  - "prometheus_rules.yml"
+
+scrape_configs:
+  - job_name: 'pedidos-app'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    # Configuração para prod
+    # Descomente as linhas abaixo e comente a linha config para dev local (fora do Docker)
+    #static_configs:
+    #  - targets: ['app:8080']  # Nome do serviço no Docker Compose
+
+    # Configuração para desenvolvimento local (fora do Docker)
+    # Descomente as linhas abaixo e comente a linha acima se estiver executando localmente
+    static_configs:
+      - targets: ['host.docker.internal:8080']

@@ -1,0 +1,22 @@
+groups:
+- name: pedidos
+  rules:
+  # Alerta para aplicação fora do ar
+  - alert: AplicacaoForaDoAr
+    expr: up{job="pedidos-app"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Aplicação fora do ar"
+      description: "A aplicação de pedidos está fora do ar há mais de 1 minuto"
+
+  # Alerta para queda brusca na taxa de criação de pedidos
+  - alert: QuedaBruscaTaxaCriacao
+    expr: rate(pedidos_criados_total[5m]) < 0.2 and rate(pedidos_criados_total[1h] offset 1h) > 1
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Queda brusca na taxa de criação de pedidos"
+      description: "A taxa de criação de pedidos caiu significativamente nos últimos 5 minutos"
