@@ -76,6 +76,12 @@
       <version>0.23.1</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Spring AOP with AspectJ support -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
