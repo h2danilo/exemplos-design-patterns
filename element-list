@@ -12,3 +12,4 @@ com.example.pedido.infrastructure.adapter.in.rest
 com.example.pedido.infrastructure.adapter.out
 com.example.pedido.infrastructure.adapter.out.kafka
 com.example.pedido.infrastructure.config
+com.example.pedido.infrastructure.rest
