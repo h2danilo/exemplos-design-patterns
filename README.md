@@ -96,6 +96,18 @@ Para informações sobre como implementar e utilizar o Apache Kafka no projeto, 
 - Boas práticas
 - Troubleshooting
 
+### Métricas e Monitoramento
+
+Para informações sobre como utilizar e interpretar as métricas disponíveis no projeto, consulte o [Guia de Métricas](./docs/metrics-guide.md). Este guia inclui:
+
+- Métricas disponíveis e seus significados
+- Como acessar as métricas via API
+- Configuração do Prometheus para coleta de métricas
+- Visualização com Grafana (incluindo dashboards prontos)
+- Casos de uso comuns para monitoramento
+- Como adicionar métricas personalizadas
+- Troubleshooting
+
 ---
 
 ## 🚀 Como Executar

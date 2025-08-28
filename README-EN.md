@@ -72,7 +72,9 @@ mvn clean verify
 
 ---
 
-## 📄 JavaDoc Documentation
+## 📄 Documentation
+
+### JavaDoc
 
 The JavaDoc documentation is automatically published at:  
 🔗 https://h2danilo.github.io/exemplos-design-patterns/
@@ -82,6 +84,29 @@ To generate it manually:
 ```bash
 mvn javadoc:javadoc
 ```
+
+### Kafka
+
+For information on how to implement and use Apache Kafka in the project, see the [Kafka Guide](./docs/kafka-guide.md). This guide includes:
+
+- Basic Kafka concepts
+- Implementation in the project
+- Development environment configuration
+- Usage examples
+- Best practices
+- Troubleshooting
+
+### Metrics and Monitoring
+
+For information on how to use and interpret the metrics available in the project, see the [Metrics Guide](./docs/metrics-guide.md). This guide includes:
+
+- Available metrics and their meanings
+- How to access metrics via API
+- Prometheus configuration for metrics collection
+- Visualization with Grafana (including ready-made dashboards)
+- Common use cases for monitoring
+- How to add custom metrics
+- Troubleshooting
 
 ---
 
