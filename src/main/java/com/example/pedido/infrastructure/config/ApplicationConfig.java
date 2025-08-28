@@ -2,6 +2,7 @@ package com.example.pedido.infrastructure.config;
 
 import com.example.pedido.application.port.in.PedidoUseCase;
 import com.example.pedido.application.port.out.EstoqueUpdaterPort;
+import com.example.pedido.application.port.out.MetricsPort;
 import com.example.pedido.application.port.out.NotaFiscalGeneratorPort;
 import com.example.pedido.application.port.out.PedidoNotifierPort;
 import com.example.pedido.application.useCase.PedidoUseCaseImpl;
@@ -25,7 +26,8 @@ public class ApplicationConfig {
     public PedidoUseCase pedidoUseCase(
             List<PedidoNotifierPort> notificadores,
             EstoqueUpdaterPort estoqueUpdater,
-            NotaFiscalGeneratorPort notaFiscalGenerator) {
-        return new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator);
+            NotaFiscalGeneratorPort notaFiscalGenerator,
+            MetricsPort metricsPort) {
+        return new PedidoUseCaseImpl(notificadores, estoqueUpdater, notaFiscalGenerator, metricsPort);
     }
 }
